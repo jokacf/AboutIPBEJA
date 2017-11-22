@@ -18,12 +18,21 @@ public class MainActivity extends AppCompatActivity {
         int displaymode = getResources().getConfiguration().orientation;
         if (displaymode == 1) { //portrait mode
             Toast.makeText(this, "Portrait!", Toast.LENGTH_SHORT).show();
+            if (findViewById(R.id.fragment_container) != null) {
+                if (savedInstanceState != null) {
+                    return;
+                }
+                FragmentHeadlines firstFragment = new FragmentHeadlines();
+                // In case this activity was started with special instructions from an
+                // Intent, pass the Intent's extras to the fragment as arguments
+                firstFragment.setArguments(getIntent().getExtras());
+                // Add the fragment to the 'fragment_container' FrameLayout
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, firstFragment).commit();
+            }
 
         } else {//landscape
             Toast.makeText(this, "Landscape!", Toast.LENGTH_SHORT).show();
-            if (findViewById(R.id.fragment_container) != null) {
-
-            }
         }
     }
 }
