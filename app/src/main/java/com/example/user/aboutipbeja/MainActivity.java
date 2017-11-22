@@ -17,9 +17,13 @@ public class MainActivity extends AppCompatActivity {
 
         int displaymode = getResources().getConfiguration().orientation;
         if (displaymode == 1) { //portrait mode
-            Toast.makeText(this, "PORTRAITT EHEHE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Portrait!", Toast.LENGTH_SHORT).show();
+
         } else {//landscape
-            Toast.makeText(this, "LANDSCAPE EHEHE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Landscape!", Toast.LENGTH_SHORT).show();
+            if (findViewById(R.id.fragment_container) != null) {
+
+            }
         }
     }
 }
