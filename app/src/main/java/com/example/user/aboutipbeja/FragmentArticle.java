@@ -27,4 +27,13 @@ public class FragmentArticle extends Fragment {
         return inflater.inflate(R.layout.fragment_fragment_article, container, false);
     }
 
+    @Override public void onStart() {
+        super.onStart();
+        Bundle args = getArguments();
+        if (args != null) {
+            int currentPosition = args.getInt("position");
+            TextView articleTextView = (TextView) getActivity().findViewById(R.id.articleTextView);
+            articleTextView.setText(IPBejaData.Artigos[currentPosition]);
+        }
+    }
 }
