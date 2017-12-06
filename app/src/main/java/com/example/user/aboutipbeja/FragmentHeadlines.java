@@ -2,6 +2,7 @@ package com.example.user.aboutipbeja;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,9 +40,14 @@ public class FragmentHeadlines extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        if (getActivity().findViewById(R.id.fragment_container) != null) {
-            Toast.makeText(getActivity().getBaseContext(), "Clicked on: " + IPBejaData.Escolas[position],
-                    Toast.LENGTH_SHORT).show();
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                Toast.makeText(getActivity().getBaseContext(), "PORTRAIT ",Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(getActivity().getBaseContext(), "LANDSCAPE ",Toast.LENGTH_SHORT).show();
+            TextView articleTextView = (TextView) getActivity().findViewById(R.id.articleTextView);
+            articleTextView.setText(IPBejaData.Artigos[position]);
         }
     }
 }
