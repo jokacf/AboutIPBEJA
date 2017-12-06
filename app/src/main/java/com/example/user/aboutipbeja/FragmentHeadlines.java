@@ -43,6 +43,14 @@ public class FragmentHeadlines extends ListFragment {
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 Toast.makeText(getActivity().getBaseContext(), "PORTRAIT ",Toast.LENGTH_SHORT).show();
+            FragmentArticle newFragment = new FragmentArticle();
+            Bundle args = new Bundle();
+            args.putInt("position", position);
+            newFragment.setArguments(args);
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
         } else {
             Toast.makeText(getActivity().getBaseContext(), "LANDSCAPE ",Toast.LENGTH_SHORT).show();
