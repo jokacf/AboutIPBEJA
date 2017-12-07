@@ -8,7 +8,12 @@
 
     <include
         android:id="@+id/customToolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -22,21 +27,67 @@
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/menuFloating"
+        android:layout_width="51dp"
+        android:layout_height="66dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="call"
+        android:clickable="true"
+        app:backgroundTint="@android:color/background_dark"
         app:layout_constraintBottom_toTopOf="@+id/fragment_container"
         app:layout_constraintEnd_toEndOf="@+id/customToolbar"
-        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.666"
-        app:srcCompat="@drawable/ic_action_name" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/menu_icon" />
+
+    <ImageView
+        android:id="@+id/call_image"
+        android:layout_width="42dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
+        app:layout_constraintEnd_toStartOf="@+id/menuFloating"
+        app:layout_constraintHorizontal_bias="0.971"
+        app:layout_constraintStart_toStartOf="@+id/customToolbar"
+        app:layout_constraintTop_toTopOf="@+id/customToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/call_icon" />
+
+    <ImageView
+        android:id="@+id/web_image"
+        android:visibility="invisible"
+        android:layout_width="42dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
+        app:layout_constraintEnd_toStartOf="@+id/call_image"
+        app:layout_constraintTop_toTopOf="@+id/customToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/web_icon" />
+
+    <ImageView
+        android:id="@+id/map_image"
+        android:visibility="invisible"
+        android:layout_width="43dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
+        app:layout_constraintEnd_toStartOf="@+id/web_image"
+        app:layout_constraintHorizontal_bias="0.981"
+        app:layout_constraintStart_toStartOf="@+id/customToolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/map_icon" />
 
 </android.support.constraint.ConstraintLayout>
