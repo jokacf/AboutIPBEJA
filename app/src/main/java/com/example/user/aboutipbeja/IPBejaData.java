@@ -11,6 +11,12 @@ public class IPBejaData {
             "Escola Superior Agrária",
             "Escola Superior de Educação"
     };
+    static String[] Imagens = {
+            "https://www.ipbeja.pt/SiteCollectionImages/estig_logo.png",
+            "https://www.ipbeja.pt/PublishingImages/IPBejaESS.jpg",
+            "https://www.ipbeja.pt/PublishingImages/IPBejaESA.jpg",
+            "https://www.ipbeja.pt/PublishingImages/IPBejaESE.jpg"
+    };
     static String[] Artigos = {
             "Escola Superior de Tecnologia e Gestão\n\nA ESTIG foi criada em 1991 (Decreto-Lei nº 40791, de 21 de Janeiro). \nNeste diploma determinava-se que as " +
                     "suas actividades fossem financiadas por receitas próprias, subsídios, comparticipações de empresas e "+

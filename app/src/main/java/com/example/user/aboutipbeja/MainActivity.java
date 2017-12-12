@@ -1,26 +1,51 @@
 package com.example.user.aboutipbeja;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 
 public class MainActivity extends AppCompatActivity {
+    WebView webView;
     boolean isOpen = false;
     FloatingActionButton fab_menu;
     ImageView  fab_call, fab_map, fab_web;
-    Animation fabOpen, fabClose, fabRright, fabRleft;
+    Animation fabOpen, fabClose, fabRright, fabRleft, fabOpenSmall, fabCloseSmall;
     Intent call;
     static final int PICK_CONTACT_REQUEST = 1;
 
@@ -31,40 +56,86 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.customToolbar);
         setSupportActionBar(toolbar);
 
+        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            Toast.makeText(this, "Large screen", Toast.LENGTH_LONG).show();
+        }
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            Toast.makeText(this, "Normal sized screen", Toast.LENGTH_LONG).show();
+        }
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            Toast.makeText(this, "Small sized screen", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "Screen size is neither large, normal or small", Toast.LENGTH_LONG).show();
+        }
+
         fab_menu = (FloatingActionButton) findViewById(R.id.menuFloating);
         fab_call = (ImageView) findViewById(R.id.call_image);
         fab_map = (ImageView) findViewById(R.id.map_image);
         fab_web = (ImageView) findViewById(R.id.web_image);
 
         fabOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_open);
+        fabOpenSmall = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_open_small);
         fabClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_close);
+        fabCloseSmall = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_close);
         fabRright = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_right);
         fabRleft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_left);
 
-        fab_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOpen){
-                    fab_menu.startAnimation(fabRleft);
-                    fab_call.startAnimation(fabClose);
-                    fab_map.startAnimation(fabClose);
-                    fab_web.startAnimation(fabClose);
-                    fab_call.setClickable(false);
-                    fab_map.setClickable(false);
-                    fab_web.setClickable(false);
-                    isOpen = false;
-                }else{
-                    fab_menu.startAnimation(fabRright);
-                    fab_call.startAnimation(fabOpen);
-                    fab_map.startAnimation(fabOpen);
-                    fab_web.startAnimation(fabOpen);
-                    fab_call.setClickable(true);
-                    fab_map.setClickable(true);
-                    fab_web.setClickable(true);
-                    isOpen = true;
+        if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_NORMAL || (getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            fab_menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isOpen) {
+                        fab_menu.startAnimation(fabRleft);
+                        fab_call.startAnimation(fabCloseSmall);
+                        fab_map.startAnimation(fabCloseSmall);
+                        fab_web.startAnimation(fabCloseSmall);
+                        fab_call.setClickable(false);
+                        fab_map.setClickable(false);
+                        fab_web.setClickable(false);
+                        isOpen = false;
+                    } else {
+                        fab_menu.startAnimation(fabRright);
+                        fab_call.startAnimation(fabOpenSmall);
+                        fab_map.startAnimation(fabOpenSmall);
+                        fab_web.startAnimation(fabOpenSmall);
+                        fab_call.setClickable(true);
+                        fab_map.setClickable(true);
+                        fab_web.setClickable(true);
+                        isOpen = true;
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            fab_menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isOpen) {
+                        fab_menu.startAnimation(fabRleft);
+                        fab_call.startAnimation(fabClose);
+                        fab_map.startAnimation(fabClose);
+                        fab_web.startAnimation(fabClose);
+                        fab_call.setClickable(false);
+                        fab_map.setClickable(false);
+                        fab_web.setClickable(false);
+                        isOpen = false;
+                    } else {
+                        fab_menu.startAnimation(fabRright);
+                        fab_call.startAnimation(fabOpen);
+                        fab_map.startAnimation(fabOpen);
+                        fab_web.startAnimation(fabOpen);
+                        fab_call.setClickable(true);
+                        fab_map.setClickable(true);
+                        fab_web.setClickable(true);
+                        isOpen = true;
+                    }
+                }
+            });
+        }
 
         fab_call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,17 +168,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         int displaymode = getResources().getConfiguration().orientation;
-        if (displaymode == 1) { //portrait mode
+        if (displaymode == 1) { //portrait
             Toast.makeText(this, "Portrait!", Toast.LENGTH_SHORT).show();
             if (findViewById(R.id.fragment_container) != null) {
                 if (savedInstanceState != null) {
                     return;
                 }
                 FragmentHeadlines firstFragment = new FragmentHeadlines();
-                // In case this activity was started with special instructions from an
-                // Intent, pass the Intent's extras to the fragment as arguments
                 firstFragment.setArguments(getIntent().getExtras());
-                // Add the fragment to the 'fragment_container' FrameLayout
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container, firstFragment).commit();
             }

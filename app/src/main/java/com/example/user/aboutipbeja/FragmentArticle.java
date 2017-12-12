@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 
 /**
@@ -33,7 +36,13 @@ public class FragmentArticle extends Fragment {
         if (args != null) {
             int currentPosition = args.getInt("position");
             TextView articleTextView = (TextView) getActivity().findViewById(R.id.articleTextView);
+            ImageView imageView = (ImageView) getActivity().findViewById(R.id.imageViewEscola);
             articleTextView.setText(IPBejaData.Artigos[currentPosition]);
+
+            Glide.with(this)
+                    .load(IPBejaData.Imagens[currentPosition])
+                    .override(300, 200)
+                    .into(imageView);
         }
     }
 }
