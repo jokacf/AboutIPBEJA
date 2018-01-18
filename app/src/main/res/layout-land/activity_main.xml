@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.user.aboutipbeja.MainActivity">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/customToolbar"/>
+    <include
+        android:id="@+id/customToolbar"
+        layout="@layout/toolbar" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/menuFloating"
@@ -58,13 +59,13 @@
 
     <ImageView
         android:id="@+id/map_image"
-        android:visibility="invisible"
         android:layout_width="43dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fragment_container"
         app:layout_constraintEnd_toStartOf="@+id/web_image"
         app:layout_constraintHorizontal_bias="0.981"
@@ -73,26 +74,25 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/map_icon" />
 
-    <fragment
-        android:id="@+id/article_fragment"
-        android:name="com.example.user.aboutipbeja.FragmentArticle"
+    <FrameLayout
+        android:id="@+id/fragment_container_land_headline"
+        android:layout_width="177dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customToolbar"
+        app:layout_constraintVertical_bias="0.0"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/headline_fragment"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fragment_container_land_headline"
         app:layout_constraintTop_toBottomOf="@+id/customToolbar"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <fragment
-        android:id="@+id/headline_fragment"
-        android:name="com.example.user.aboutipbeja.FragmentHeadlines"
-        android:layout_width="215dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customToolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0"></FrameLayout>
 </android.support.constraint.ConstraintLayout>

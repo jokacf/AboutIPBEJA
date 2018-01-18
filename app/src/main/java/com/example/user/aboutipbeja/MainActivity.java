@@ -1,6 +1,7 @@
 package com.example.user.aboutipbeja;
 
 import android.Manifest;
+import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,10 +22,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,7 +39,9 @@ import org.w3c.dom.NodeList;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
     WebView webView;
     boolean isOpen = false;
     FloatingActionButton fab_menu;
-    ImageView  fab_call, fab_map, fab_web;
+    ImageView fab_call, fab_map, fab_web;
     Animation fabOpen, fabClose, fabRright, fabRleft, fabOpenSmall, fabCloseSmall;
     Intent call;
     static final int PICK_CONTACT_REQUEST = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +63,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.customToolbar);
         setSupportActionBar(toolbar);
-
-        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            Toast.makeText(this, "Large screen", Toast.LENGTH_LONG).show();
-        }
-        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            Toast.makeText(this, "Normal sized screen", Toast.LENGTH_LONG).show();
-        }
-        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-            Toast.makeText(this, "Small sized screen", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this, "Screen size is neither large, normal or small", Toast.LENGTH_LONG).show();
-        }
 
         fab_menu = (FloatingActionButton) findViewById(R.id.menuFloating);
         fab_call = (ImageView) findViewById(R.id.call_image);
@@ -110,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-        }else {
+        } else {
             fab_menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -136,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
 
         fab_call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,20 +165,29 @@ public class MainActivity extends AppCompatActivity {
 
         int displaymode = getResources().getConfiguration().orientation;
         if (displaymode == 1) { //portrait
-            Toast.makeText(this, "Portrait!", Toast.LENGTH_SHORT).show();
             if (findViewById(R.id.fragment_container) != null) {
-                if (savedInstanceState != null) {
-                    return;
-                }
-                FragmentHeadlines firstFragment = new FragmentHeadlines();
-                firstFragment.setArguments(getIntent().getExtras());
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, firstFragment).commit();
-            }
 
-        } else {//landscape
-            Toast.makeText(this, "Landscape!", Toast.LENGTH_SHORT).show();
+                    FragmentHeadlines firstFragment = new FragmentHeadlines();
+                    FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, firstFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+            }
+            } else {//landscape
+                if (findViewById(R.id.fragment_container) != null && findViewById(R.id.fragment_container_land_headline) != null) {
+                        FragmentHeadlines firstFragment = new FragmentHeadlines();
+                        FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragment_container_land_headline, firstFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                if(savedInstanceState == null) {
+                    FragmentArticle article = new FragmentArticle();
+                    article.setArguments(getIntent().getExtras());
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container, article).commit();
+                }
+                }
         }
     }
 }
-
